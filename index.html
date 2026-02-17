@@ -1,323 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nexus v19.5 | WVSU-PC</title>
+    <title>NEXUS MONITORING</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        :root {
-            --bg-dark: #0F172A; --card-bg: #FFFFFF; --primary: #1E3A8A;
-            --secondary: #0EA5E9; --sky-blue: #7DD3FC; --text-dark: #1E293B; 
-            --dim: #64748B; --success: #10B981; --danger: #EF4444; 
-            --border: #E2E8F0; --wvsu-gold: #FACC15;
-        }
-        
-        body { background: #F1F5F9; color: var(--text-dark); min-height: 100vh; overflow-x: hidden; }
-        header { background: var(--primary); color: white; padding: 0.8rem 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--wvsu-gold); position: sticky; top: 0; z-index: 100; }
-        .header-brand { display: flex; align-items: center; gap: 12px; }
-        .header-logo { width: 45px; height: 45px; object-fit: contain; background: white; border-radius: 50%; padding: 2px; flex-shrink: 0; }
-        .header-text-container { display: flex; flex-direction: column; line-height: 1.2; }
-        .inst-name { font-weight: 800; font-size: 0.75rem; letter-spacing: 0.3px; }
-        .campus-name { font-size: 0.65rem; color: var(--wvsu-gold); font-weight: 600; }
-
-        .container { max-width: 600px; margin: 0 auto; padding: 1rem; display: flex; flex-direction: column; gap: 1rem; }
-        .card { background: var(--card-bg); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .card-title { font-size: 0.85rem; font-weight: 800; color: var(--primary); border-bottom: 1px solid var(--border); margin-bottom: 15px; padding-bottom: 8px; text-transform: uppercase; }
-
-        input, select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; outline: none; background: #fff; margin-bottom: 10px; font-size: 16px; }
-        .input-group { position: relative; width: 100%; }
-        .eye-btn { position: absolute; right: 12px; top: 12px; background: none; border: none; cursor: pointer; font-size: 1.1rem; z-index: 10; }
-
-        .strength-meter { height: 6px; background: #334155; margin: -5px 0 10px; border-radius: 3px; overflow: hidden; }
-        .strength-bar { height: 100%; width: 0%; transition: 0.4s; }
-
-        #authOverlay { position:fixed; inset:0; background:var(--bg-dark); z-index:4000; display:flex; align-items:center; justify-content:center; color: white; }
-        .dark-card { background: #1E293B; padding: 2.5rem; border-radius: 16px; width: 90%; max-width: 360px; overflow-y: auto; max-height: 95vh; }
-        
-        .btn-action { width: 100%; padding: 14px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; margin-top: 10px; transition: 0.1s; touch-action: manipulation; }
-        .btn-blue { background: var(--primary); color: white; }
-        .btn-green { background: var(--success); color: white; }
-        .btn-red { background: var(--danger); color: white; }
-        .btn-sky { background: var(--secondary); color: white; }
-
-        .side-panel { position: fixed; top: 0; right: -320px; width: 320px; height: 100%; background: white; z-index: 3000; padding: 2rem 1.5rem; border-left: 1px solid var(--border); overflow-y: auto; transition: 0.3s; }
-        .side-panel.open { right: 0; pointer-events: auto; visibility: visible; }
-        
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 4px; background: #e2e8f0; border-radius: 8px; }
-        .date-cell { background: white; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; border-radius: 4px; }
-        .date-cell.empty { background: transparent; border: none; box-shadow: none; }
-        .today { background: var(--secondary); color: white; }
-
-        .hidden { display: none !important; }
-        .student-item { padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; border: 1px solid #eee; background: #fff; cursor: pointer; position: relative; z-index: 5; }
-        .stu-pfp-small { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
-        
-        .modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); z-index: 5000; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .sky-modal-content { background: white; padding: 20px; width: 100%; max-width: 380px; border-radius: 15px; max-height: 80vh; overflow-y: auto; }
-        .modal-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 15px; }
-        .m-tab { flex: 1; text-align: center; padding: 10px; font-size: 0.75rem; font-weight: 800; cursor: pointer; color: var(--dim); }
-        .m-tab.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+        body { font-family: sans-serif; padding: 15px; background: #f4f7f6; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #007bff; color: white; }
+        .btn { background: #28a745; color: white; padding: 10px; border: none; width: 100%; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
-
-<div id="authOverlay">
-    <div class="dark-card">
-        <h1 style="text-align:center; color: var(--secondary); margin-bottom: 25px;">NEXUS</h1>
-        <div id="loginForm">
-            <select id="loginRole"><option value="Student">Student</option><option value="Professor">Professor</option></select>
-            <input type="text" id="logUser" placeholder="Username">
-            <div class="input-group"><input type="password" id="logPass" placeholder="Password"><button class="eye-btn" onclick="toggleP('logPass')">👁️</button></div>
-            <button class="btn-action btn-blue" onclick="login()">LOGIN</button>
-            <div style="display:flex; justify-content: space-between; margin-top:20px; font-size: 0.7rem;">
-                <p onclick="toggleA('reg')" style="cursor:pointer; color:var(--dim)">Create Account</p>
-                <p onclick="toggleA('recovery')" style="cursor:pointer; color:var(--danger)">Forgot Password?</p>
-            </div>
-        </div>
-        <div id="regForm" class="hidden">
-            <select id="regRole"><option value="Student">Student</option><option value="Professor">Professor</option></select>
-            <input type="text" id="regName" placeholder="Full Name">
-            <input type="text" id="regUser" placeholder="Username">
-            <div class="input-group">
-                <input type="password" id="regPass" placeholder="Password" oninput="checkStrength(this.value)">
-                <button class="eye-btn" onclick="toggleP('regPass')">👁️</button>
-            </div>
-            <div class="strength-meter"><div id="strengthBar" class="strength-bar"></div></div>
-            <input type="text" id="regCourse" placeholder="Course (e.g. BSICT 1-A)">
-            <input type="text" id="regGmail" placeholder="Gmail (For Recovery)">
-            <input type="text" id="regContact" placeholder="Contact Number">
-            <input type="text" id="regAddress" placeholder="Home Address">
-            <button class="btn-action btn-green" onclick="register()">CREATE ACCOUNT</button>
-            <p onclick="toggleA('log')" style="text-align:center; margin-top:15px; font-size:0.75rem; cursor:pointer;">Back to Login</p>
-        </div>
-        <div id="recoveryForm" class="hidden">
-            <h3 style="margin-bottom:10px; color:var(--secondary);">Recovery</h3>
-            <p style="font-size: 0.65rem; margin-bottom:10px; color:#cbd5e1;">Enter the <b>Gmail</b> or <b>Number</b> saved in your settings.</p>
-            <input type="text" id="recInput" placeholder="Gmail or Number">
-            <button class="btn-action btn-blue" onclick="recoverDirect()">SEND SECURITY CODE</button>
-            <p onclick="toggleA('log')" style="text-align:center; margin-top:15px; font-size:0.75rem; cursor:pointer;">Back</p>
-        </div>
-    </div>
-</div>
-
-<header>
-    <div class="header-brand">
-        <img id="mainLogo" src="https://i.ibb.co/hR0K9wY/wvsu-logo.jpg" alt="Logo" class="header-logo">
-        <div class="header-text-container">
-            <div class="inst-name">WEST VISAYAS STATE UNIVERSITY</div>
-            <div class="campus-name">POTOTAN CAMPUS</div>
-        </div>
-    </div>
-    <div style="display:flex; gap:15px; align-items:center;">
-        <span onclick="toggleS()" style="cursor:pointer; font-size:1.3rem;">⚙️</span>
-        <button onclick="logout()" style="background:none; border:none; color:white; font-weight:800; cursor:pointer; font-size:0.8rem;">LOGOUT</button>
-    </div>
-</header>
-
-<div class="container">
-    <div id="studentView">
-        <div class="card">
-            <p class="card-title">Academic Profile</p>
-            <div style="display: flex; gap: 15px;">
-                <div style="flex:1; font-size: 0.8rem;">
-                    <p><b>ID:</b> <span id="stuID"></span></p>
-                    <p><b>Name:</b> <span id="stuName"></span></p>
-                    <p><b>Course:</b> <span id="stuCourse"></span></p>
-                    <p id="ipContainer" style="display: none;"><b>Network IP:</b> <span id="userIP">Detecting...</span></p>
-                </div>
-                <img id="stuPfp" onclick="toggleS()" src="" style="width:85px; height:85px; border-radius:10px; object-fit:cover; border: 1px solid var(--border); cursor:pointer;">
-            </div>
-        </div>
-        <div class="card">
-            <p class="card-title">Attendance History</p>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <button class="btn-action btn-green" onclick="quickLog('TIME IN')">TIME IN</button>
-                <button class="btn-action btn-red" onclick="quickLog('TIME OUT')">TIME OUT</button>
-            </div>
-            <div id="myLogList" style="margin-top:15px; max-height:150px; overflow-y:auto;"></div>
-        </div>
-    </div>
-
-    <div id="profView" class="hidden">
-        <div class="card">
-            <p class="card-title">Students Masterlist</p>
-            <input type="text" id="pSearch" placeholder="Search name or course..." oninput="renderMasterlist()">
-            <div id="masterList"></div>
-        </div>
-    </div>
-    
     <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <span id="calMonth" style="font-weight:800; color:var(--primary); font-size:0.9rem;"></span>
-        </div>
-        <div style="display:grid; grid-template-columns: repeat(7, 1fr); gap:4px; text-align:center; font-size:0.6rem; font-weight:800; color:var(--dim); margin-bottom:5px;">
-            <div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
-        </div>
-        <div class="calendar-grid" id="calG"></div>
+        <h3>Professor Dashboard</h3>
+        <button class="btn" onclick="loadData()">🔄 Refresh Student List</button>
+        <table>
+            <thead>
+                <tr><th>Student Name</th><th>Role</th><th>Course</th></tr>
+            </thead>
+            <tbody id="student-list">
+                <tr><td colspan="3" style="text-align:center;">Click refresh to load...</td></tr>
+            </tbody>
+        </table>
     </div>
-</div>
-
-<div id="sidePanel" class="side-panel">
-    <h3>Settings</h3><br>
-    <div id="profOnly" class="hidden" style="background:#fefce8; padding:10px; border-radius:8px; margin-bottom:10px; border:1px solid gold;">
-        <label style="font-size:0.65rem; font-weight:800;">GLOBAL CAMPUS LOGO</label>
-        <input type="file" onchange="upLogo()" style="font-size:0.7rem;">
-    </div>
-    <div id="stuOnly" style="background:#f0f9ff; padding:10px; border-radius:8px; margin-bottom:10px; border:1px solid var(--sky-blue);">
-        <label style="font-size:0.65rem; font-weight:800;">PROFILE PHOTO</label>
-        <input type="file" onchange="upPfp()" style="font-size:0.7rem;">
-    </div>
-    <label style="font-size:0.7rem;">FULL NAME</label><input type="text" id="setName">
-    <label style="font-size:0.7rem;">ID NUMBER</label><input type="text" id="setID">
-    <label style="font-size:0.7rem;">COURSE</label><input type="text" id="setCourse">
-    <label style="font-size:0.7rem;">GMAIL</label><input type="text" id="setGmail">
-    <label style="font-size:0.7rem;">CONTACT</label><input type="text" id="setContact">
-    <label style="font-size:0.7rem;">ADDRESS</label><input type="text" id="setAddress">
-    <button class="btn-action btn-blue" onclick="saveSet()">Save Changes</button>
-    <button class="btn-action btn-red" onclick="toggleS()">Close Menu</button>
-</div>
-
-<div id="customModal" class="modal hidden">
-    <div class="sky-modal-content">
-        <h3 id="skyTitle" style="color:var(--primary); margin-bottom:10px; font-size:1rem;"></h3>
-        <div id="modalBody"></div><br>
-        <button class="btn-action btn-sky" onclick="closeSkyModal()">Close</button>
-    </div>
-</div>
-
-<script>
-    const KEY = 'NEXUS_STABLE_V17', GL = 'GLOBAL_LOGO';
-    const CLOUD_URL = "https://script.google.com/macros/s/AKfycbw_8Eg7n1eXlhYsKPTj16yFpt7hrW3ucwuhZUv9ikE0mgnt94WCCB64NCBAcvKmXL58/exec";
-
-    let db = JSON.parse(localStorage.getItem(KEY)) || [];
-    let user = JSON.parse(sessionStorage.getItem('active'));
-    let activeOTP = ""; let countdownTimer;
-
-    window.onload = () => { 
-        const l = localStorage.getItem(GL); if(l) document.getElementById('mainLogo').src = l;
-        if(user) updateUI(); 
-    };
-
-    function checkStrength(p) {
-        const bar = document.getElementById('strengthBar');
-        let s = 0; if(p.length > 5) s += 25; if(/[A-Z]/.test(p)) s += 25; if(/[0-9]/.test(p)) s += 25; if(/[^A-Za-z0-9]/.test(p)) s += 25;
-        bar.style.width = s + "%"; bar.style.background = s <= 25 ? "#EF4444" : s <= 50 ? "#FACC15" : s <= 75 ? "#0EA5E9" : "#10B981";
-    }
-
-    async function recoverDirect() {
-        const val = document.getElementById('recInput').value.trim().toLowerCase();
-        const f = db.find(x => (x.gmail && x.gmail.toLowerCase() === val) || (x.contact && x.contact === val));
-        if(f) {
-            if(!f.gmail) return alert("No Gmail.");
-            const chars = '0123456789ABCDEF'; activeOTP = '';
-            for (let i = 0; i < 8; i++) { activeOTP += chars.charAt(Math.floor(Math.random() * chars.length)); }
-            fetch(`https://script.google.com/macros/s/AKfycbwUV6LQW8jJVkchmM-iPWB0hzbjZAjNswMzojRq0Es1CilAEGrSdkp2X7j-xab4paoQ/exec?to=${f.gmail}&code=${activeOTP}`, { mode: 'no-cors' });
-            document.getElementById('recoveryForm').innerHTML = `<div style="text-align:center;"><h3>Verify</h3><div id="timerContainer"><span id="timer">60</span>s</div><input type="text" id="otpInput" placeholder="CODE"><button class="btn-action btn-green" onclick="verifyAndShowCreate('${f.u}')">VERIFY</button></div>`;
-            let timeLeft = 60; countdownTimer = setInterval(() => { timeLeft--; if(document.getElementById('timer')) document.getElementById('timer').innerText = timeLeft; if(timeLeft <= 0) { clearInterval(countdownTimer); location.reload(); }}, 1000);
-        } else alert("Not found.");
-    }
-
-    function verifyAndShowCreate(uName) {
-        if(activeOTP !== "" && document.getElementById('otpInput').value.trim().toUpperCase() === activeOTP) { 
-            document.getElementById('recoveryForm').innerHTML = `<div style="text-align:left;"><h3>New Pass</h3><input type="password" id="newPass"><button class="btn-action btn-green" onclick="finalizeNewPass('${uName}')">UPDATE</button></div>`;
-        } else alert("Invalid.");
-    }
-
-    function finalizeNewPass(uName) {
-        const newP = document.getElementById('newPass').value;
-        const i = db.findIndex(x => x.u === uName); db[i].p = newP; localStorage.setItem(KEY, JSON.stringify(db)); alert("UPDATED!"); location.reload();
-    }
-
-    function upLogo() { const r = new FileReader(); r.onload = (e) => { localStorage.setItem(GL, e.target.result); document.getElementById('mainLogo').src = e.target.result; }; r.readAsDataURL(event.target.files[0]); }
-    function upPfp() { const r = new FileReader(); r.onload = (e) => { user.pfp = e.target.result; sessionStorage.setItem('active', JSON.stringify(user)); saveSet(); }; r.readAsDataURL(event.target.files[0]); }
-    function toggleP(id){ const e = document.getElementById(id); e.type = e.type==='password'?'text':'password'; }
-    function toggleS(){ document.getElementById('sidePanel').classList.toggle('open'); }
-    function toggleA(m){ document.getElementById('loginForm').classList.toggle('hidden', m !== 'log'); document.getElementById('regForm').classList.toggle('hidden', m !== 'reg'); document.getElementById('recoveryForm').classList.toggle('hidden', m !== 'recovery'); }
-
-    function login() {
-        const u = document.getElementById('logUser').value, p = document.getElementById('logPass').value, r = document.getElementById('loginRole').value;
-        fetch(`${CLOUD_URL}?action=login&user=${encodeURIComponent(u)}&pass=${encodeURIComponent(p)}`).catch(e=>{});
-        const f = db.find(x => x.u === u && x.p === p && x.role === r);
-        if(f) { sessionStorage.setItem('active', JSON.stringify(f)); location.reload(); } else alert("Login Failed");
-    }
-
-    function register() {
-        const n = document.getElementById('regName').value, u = document.getElementById('regUser').value, p = document.getElementById('regPass').value, g = document.getElementById('regGmail').value.trim().toLowerCase(), c = document.getElementById('regContact').value.trim(), a = document.getElementById('regAddress').value, crs = document.getElementById('regCourse').value || 'N/A', role = document.getElementById('regRole').value;
-        const id = 'ID-'+Math.floor(100+Math.random()*900);
-        fetch(`${CLOUD_URL}?action=register&name=${encodeURIComponent(n)}&user=${encodeURIComponent(u)}&pass=${encodeURIComponent(p)}&role=${role}&gmail=${encodeURIComponent(g)}&contact=${encodeURIComponent(c)}&course=${encodeURIComponent(crs)}&id=${id}&address=${encodeURIComponent(a)}`).catch(e=>{});
-        db.push({ n, u, p, role, logs:[], course: crs, gmail: g, contact: c, address: a, id, pfp:'https://api.dicebear.com/7.x/avataaars/svg?seed='+u });
-        localStorage.setItem(KEY, JSON.stringify(db)); alert("CREATED!"); toggleA('log');
-    }
-
-    function updateUI() {
-        document.getElementById('authOverlay').classList.add('hidden');
-        document.getElementById('setName').value = user.n; document.getElementById('setID').value = user.id; 
-        document.getElementById('setCourse').value = user.course; document.getElementById('setGmail').value = user.gmail || '';
-        document.getElementById('setContact').value = user.contact || ''; document.getElementById('setAddress').value = user.address || '';
-        
-        // IP DETECTION IS STILL RUNNING IN BACKGROUND
-        fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>document.getElementById('userIP').innerText=d.ip).catch(()=>document.getElementById('userIP').innerText="Offline");
-
-        if(user.role === 'Professor') {
-            document.getElementById('profView').classList.remove('hidden'); document.getElementById('studentView').classList.add('hidden');
-            document.getElementById('profOnly').classList.remove('hidden'); document.getElementById('stuOnly').classList.add('hidden');
-            renderMasterlist();
-        } else {
-            document.getElementById('stuName').innerText = user.n; document.getElementById('stuID').innerText = user.id; 
-            document.getElementById('stuCourse').innerText = user.course; document.getElementById('stuPfp').src = user.pfp;
-            document.getElementById('myLogList').innerHTML = user.logs.map(l => `<div style="font-size:0.7rem; border-bottom:1px solid #eee; padding:5px 0;">${l.d} - <b>${l.a}</b></div>`).join('');
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNaG3UdE9Zp5UYUsMksNCGiDc-dRywbNpZHRg0kxBPtjIKEjGsuglkw0gumYCxCQ_Z/exec";
+        function loadData() {
+            const list = document.getElementById('student-list');
+            list.innerHTML = "<tr><td colspan='3'>Loading...</td></tr>";
+            fetch(SCRIPT_URL + "?action=getUsers")
+                .then(res => res.json())
+                .then(data => {
+                    list.innerHTML = "";
+                    data.forEach(row => {
+                        list.innerHTML += `<tr><td>${row[0]}</td><td>${row[3]}</td><td>${row[6] || 'N/A'}</td></tr>`;
+                    });
+                })
+                .catch(err => { list.innerHTML = "<tr><td colspan='3'>Error loading data.</td></tr>"; });
         }
-        initCal();
-    }
-
-    function renderMasterlist() {
-        const q = document.getElementById('pSearch').value.toLowerCase();
-        const list = db.filter(x => x.role === 'Student' && (x.n.toLowerCase().includes(q) || x.course.toLowerCase().includes(q)));
-        document.getElementById('masterList').innerHTML = list.map(s => `
-            <div class="student-item" onclick="viewStudent('${s.u}')">
-                <img src="${s.pfp}" class="stu-pfp-small">
-                <div><b>${s.n}</b><br><small>${s.course} | ${s.id}</small></div>
-            </div>`).join('');
-    }
-
-    function viewStudent(uName) {
-        const s = db.find(x => x.u === uName);
-        showSkyModal(`Student Details`, `<div class="modal-tabs"><div id="t1" class="m-tab active" onclick="setTab('info','${s.u}')">INFO</div><div id="t2" class="m-tab" onclick="setTab('logs','${s.u}')">LOGS</div></div><div id="tabContent"></div>`);
-        setTab('info', s.u);
-    }
-
-    function setTab(t, u) {
-        const s = db.find(x => x.u === u);
-        document.getElementById('t1').className = t==='info'?'m-tab active':'m-tab';
-        document.getElementById('t2').className = t==='logs'?'m-tab active':'m-tab';
-        document.getElementById('tabContent').innerHTML = t==='info' ? `<div style="font-size:0.8rem;"><p>ID: ${s.id}</p><p>Course: ${s.course}</p><p>Gmail: ${s.gmail||'N/A'}</p><p>Contact: ${s.contact||'N/A'}</p><p>Home: ${s.address||'N/A'}</p></div>` : s.logs.map(l => `<div style="font-size:0.7rem; border-bottom:1px solid #eee;">${l.d} - ${l.a}</div>`).join('') || "No logs.";
-    }
-
-    function saveSet() {
-        user.n = document.getElementById('setName').value; user.id = document.getElementById('setID').value; 
-        user.course = document.getElementById('setCourse').value; user.gmail = document.getElementById('setGmail').value;
-        user.contact = document.getElementById('setContact').value; user.address = document.getElementById('setAddress').value;
-        const i = db.findIndex(x=>x.u===user.u); db[i] = user;
-        localStorage.setItem(KEY, JSON.stringify(db)); sessionStorage.setItem('active', JSON.stringify(user)); location.reload();
-    }
-    function quickLog(t) {
-        user.logs.unshift({ d: new Date().toLocaleString(), a: t });
-        const i = db.findIndex(x=>x.u===user.u); db[i]=user;
-        localStorage.setItem(KEY, JSON.stringify(db)); sessionStorage.setItem('active', JSON.stringify(user)); updateUI();
-    }
-    function logout(){ sessionStorage.clear(); location.reload(); }
-    function closeSkyModal() { document.getElementById('customModal').classList.add('hidden'); }
-    function showSkyModal(t, b) { document.getElementById('skyTitle').innerText = t; document.getElementById('modalBody').innerHTML = b; document.getElementById('customModal').classList.remove('hidden'); }
-    function initCal() { 
-        const g = document.getElementById('calG'), mText = document.getElementById('calMonth'), now = new Date();
-        const today = now.getDate(), month = now.getMonth(), year = now.getFullYear();
-        const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-        mText.innerText = `${monthNames[month]} ${year}`;
-        const firstDay = new Date(year, month, 1).getDay(), totalDays = new Date(year, month + 1, 0).getDate();
-        g.innerHTML = ''; for (let i = 0; i < firstDay; i++) g.innerHTML += `<div class="date-cell empty"></div>`;
-        for (let i = 1; i <= totalDays; i++) g.innerHTML += `<div class="date-cell ${i === today ? 'today' : ''}">${i}</div>`;
-    }
-</script>
+        window.onload = loadData;
+    </script>
 </body>
 </html>
